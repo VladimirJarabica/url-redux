@@ -18,6 +18,9 @@ describe('#urlHelper', () => {
     it('should parse empty string', () => {
       expect(R.compose(R.length, R.keys, parseQuery)('')).toBe(0);
     });
+    it('should correctly parse encoded uri component', () => {
+      expect(parseQuery('kek=bur%2Flol')).toEqual({ kek: 'bur/lol' });
+    });
     it('should parse simple query', () => {
       expect(parseQuery('kek=bur')).toEqual({ kek: 'bur' });
       expect(parseQuery('?kek=bur')).toEqual({ kek: 'bur' });
@@ -35,11 +38,11 @@ describe('#urlHelper', () => {
   });
   describe('#deterministic', () => {
     it('make => parse', () => {
-      const input = { kek: 'bur', lol: '1234' };
+      const input = { kek: 'bur', lol: '12/34' };
       expect(R.compose(parseQuery, makeQuery)(input)).toEqual(input);
     });
     it('parse => make', () => {
-      const input = '?kek=bur&lol=1234';
+      const input = '?kek=bur&lol=12%2F34';
       expect(R.compose(makeQuery, parseQuery)(input)).toEqual(input);
     });
   });

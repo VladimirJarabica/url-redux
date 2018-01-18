@@ -47,7 +47,7 @@ export const parseQuery = (query: string): Url =>
   R.compose(
     R.reduce((acc, keyParam) => {
       const [key, param] = R.split('=')(keyParam);
-      return R.assoc(key, param, acc);
+      return R.assoc(decodeURIComponent(key), decodeURIComponent(param), acc);
     }, {}),
     R.filter(Boolean),
     R.split('&'),
