@@ -82,11 +82,11 @@ const urlReducer = (pushUrl: string => void = pushUrlToWindow) => (
         action.payload.param,
         state.url,
       );
-      pushUrl(addedParams);
+      pushUrl(makeQuery(addedParams));
       return addedParams;
     case 'url-redux/REMOVE_PARAM':
       const removedParams = R.dissoc(action.payload.key, state);
-      pushUrl(removedParams);
+      pushUrl(makeQuery(removedParams));
       return removedParams;
     default:
       return state;
