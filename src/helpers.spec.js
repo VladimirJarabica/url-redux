@@ -4,6 +4,9 @@ import { parseQuery, makeQuery } from './main';
 
 describe('#urlHelper', () => {
   describe('#makeQuery', () => {
+    it('should make empty query', () => {
+      expect(makeQuery({})).toEqual('?');
+    });
     it('should make simple query', () => {
       expect(makeQuery({ kek: 'bur' })).toEqual('?kek=bur');
     });
@@ -12,6 +15,9 @@ describe('#urlHelper', () => {
     });
   });
   describe('#parseQuery', () => {
+    it('should parse empty string', () => {
+      expect(R.compose(R.length, R.keys, parseQuery)('')).toBe(0);
+    });
     it('should parse simple query', () => {
       expect(parseQuery('kek=bur')).toEqual({ kek: 'bur' });
       expect(parseQuery('?kek=bur')).toEqual({ kek: 'bur' });

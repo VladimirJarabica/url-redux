@@ -49,6 +49,7 @@ export const parseQuery = (query: string): Url =>
       const [key, param] = R.split('=')(keyParam);
       return R.assoc(key, param, acc);
     }, {}),
+    R.filter(Boolean),
     R.split('&'),
     R.ifElse(query => R.head(query) === '?', R.tail, R.identity),
   )(query);
