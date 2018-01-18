@@ -2,7 +2,9 @@
 Simple reducer for synchronizing url search params with redux state
 
 ## Usage
-### Initialiting reducers
+### Initializing reducers
+Take default export function and use it as one of your reducers.
+Preferably under `url` key, to make selector work.
 ```
 import { combineReducers } from 'redux';
 import urlReducer from 'url-redux';
@@ -19,6 +21,7 @@ const reducer = combineReducers({
 ```
 
 ### Inside Component
+Selector and actions in action.
 ```
 import * as React from 'react';
 import { connect } from 'react-redux;
