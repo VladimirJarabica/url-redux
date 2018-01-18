@@ -19,5 +19,6 @@
     "babel-preset-flow": "^6.23.0",
     "babel-preset-stage-2": "^6.24.1",
     "flow-bin": "^0.63.1"
-  }
+  },
+  "version": "0.0.1"
 }
