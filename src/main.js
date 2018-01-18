@@ -54,6 +54,15 @@ export const parseQuery = (query: string): Url =>
     R.ifElse(query => R.head(query) === '?', R.tail, R.identity),
   )(query);
 
+const pushUrlToWindow = (query: string) => {
+  if (!window) return;
+  window.history.pushState(
+    {},
+    null,
+    `${window.location.origin}${window.location.pathname}${query}`,
+  );
+};
+
 // ======
 // Reducer
 const INITIAL_STATE = R.compose(
@@ -61,7 +70,10 @@ const INITIAL_STATE = R.compose(
   R.pathOr('', ['location', 'search']),
 )(window);
 
-const urlReducer = (state: Url = INITIAL_STATE, action: Action): Url => {
+const urlReducer = (pushUrl: string => void = pushUrlToWindow) => (
+  state: Url = INITIAL_STATE,
+  action: Action,
+): Url => {
   if (!window) return state; // Server rendering
   switch (action.type) {
     case 'url-redux/ADD_PARAM':
@@ -70,11 +82,11 @@ const urlReducer = (state: Url = INITIAL_STATE, action: Action): Url => {
         action.payload.param,
         state.url,
       );
-      window.location.search = makeQuery(addedParams);
+      pushUrl(addedParams);
       return addedParams;
     case 'url-redux/REMOVE_PARAM':
       const removedParams = R.dissoc(action.payload.key, state);
-      window.location.search = makeQuery(removedParams);
+      pushUrl(removedParams);
       return removedParams;
     default:
       return state;
